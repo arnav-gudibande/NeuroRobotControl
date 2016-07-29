@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <math.h>
 
 #ifndef _LINUX
@@ -111,15 +112,19 @@ static int TestDacRW(uint board)
     X826( S826_DacRangeWrite(board, 1, S826_DAC_SPAN_5_5, safemode) );
     X826( S826_DacRangeWrite(board, 2, S826_DAC_SPAN_5_5, safemode) );
 
-    for (i = 0; i < 0xFFFF; i++)
-    {
-        printf("%i\n", i);
-        X826( S826_DacDataWrite(board, chan, i, safemode) );
-        if (i != setpoint)
-            printf("%d != %d\n", i, setpoint);
+    // for (i = 0; i < 0xFFFF; i++)
+    // {
+    //     printf("%i\n", i);
+    //     X826( S826_DacDataWrite(board, chan, i, safemode) );
+    //     if (i != setpoint)
+    //         printf("%d != %d\n", i, setpoint);
+    //
+    // }
 
-    }
-
+    X826( S826_DacDataWrite(board, 2, 0x7530, safemode) );
+    sleep(3);
+    X826( S826_DacDataWrite(board, 2, 0x88B8, safemode) );
+    sleep(3);
     X826( S826_DacDataWrite(board, 0, 0x8000, safemode) );
     X826( S826_DacDataWrite(board, 1, 0x8000, safemode) );
     X826( S826_DacDataWrite(board, 2, 0x8000, safemode) );
