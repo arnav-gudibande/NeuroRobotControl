@@ -45,7 +45,10 @@ static int NRCstart(uint board)
         }
     }
 
+    X826( S826_SafeWrenWrite(board, 0) );
+    X826( S826_SafeWrenWrite(board, 1) );
     X826( S826_SafeWrenWrite(board, 2) );
+
     X826( S826_DacRangeWrite(board, 0, S826_DAC_SPAN_5_5, safemode) );  // program dac output range: -10V to +10V
     X826( S826_DacRangeWrite(board, 1, S826_DAC_SPAN_5_5, safemode) );
     X826( S826_DacRangeWrite(board, 2, S826_DAC_SPAN_5_5, safemode) );
@@ -56,7 +59,6 @@ static int NRCstart(uint board)
 
       redisReply *p = redisCommand(c, "GET pitch");
       X826( S826_DacDataWrite(board, 0, strtoul(p->str, 0, 0), safemode) );
-      printf("%s\n", p->str);
     }
 
     return errcode;
