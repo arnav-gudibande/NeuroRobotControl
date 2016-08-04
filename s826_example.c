@@ -65,6 +65,7 @@ static int NRCstart(uint board)
       printf("%s\n", p->str);
     }
 
+
     return errcode;
 }
 
