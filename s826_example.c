@@ -53,16 +53,15 @@ static int NRCstart(uint board)
     X826( S826_DacRangeWrite(board, 1, S826_DAC_SPAN_5_5, safemode) );
     X826( S826_DacRangeWrite(board, 2, S826_DAC_SPAN_5_5, safemode) );
 
-
-    //X826( S826_DacDataWrite(board, 0, 0x8000, safemode) );
-
     while(1) {
       redisReply *y = redisCommand(c, "GET yaw");
       X826( S826_DacDataWrite(board, 2, strtoul(y->str, 0, 0), safemode) );
 
       redisReply *p = redisCommand(c, "GET pitch");
       X826( S826_DacDataWrite(board, 0, strtoul(p->str, 0, 0), safemode) );
-      printf("%s\n", p->str);
+
+      redisReply *s = redisCommand(c, "GET slider");
+      X826( S826_DacDataWrite(board, 1, strtoul(s->str, 0, 0), safemode) );
     }
 
 
